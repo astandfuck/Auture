@@ -1,0 +1,9 @@
+openai
+python-dotenv
+pyvts
+loguru
+playsound3
+edge_tts
+sounddevice
+soundfile
+pygame

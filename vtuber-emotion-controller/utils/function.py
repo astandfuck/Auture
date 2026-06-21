@@ -25,7 +25,7 @@ def play_to_vtube(audio_file_path: str, device_name: str = "CABLE Input (VB-Audi
         pygame.mixer.quit()
 
 def write_env(key: str, value: str):
-    env_path = ".env"
+    env_path = "../.env"
     content = ""
     # 读取原有内容
     if os.path.exists(env_path):

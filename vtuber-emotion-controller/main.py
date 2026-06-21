@@ -1,9 +1,10 @@
 
-from emotion_analyzer import EmotionAnalyzer
-from vts_controller import VTSController
+from core import EmotionAnalyzer
+from core import VTSController
+from core import TTSController
+from utils import play_to_vtube
+
 from loguru import logger
-from tts_controller import TTSController
-from function import play_to_vtube
 import asyncio
 
 class VTuberSystem:
@@ -97,12 +98,13 @@ class VTuberSystem:
         print(f"[情绪检测: {emotion}]")
         emotion_task = asyncio.create_task(self.vts_controller.trigger_emotion(emotion, self.emotion_duration))
 
-        #第三：tts的实现,与表情并行运行
+        #creat .mp3 file
         tts_task = asyncio.create_task(self.tts_controller.speak(response))
+        audio_file = await tts_task
 
-
-        audio_file, _ = await asyncio.gather(tts_task, emotion_task)
-        await asyncio.to_thread(play_to_vtube,audio_file)#无法独立近行
+        #speak and emotion at the same time
+        speak_task = asyncio.create_task(asyncio.to_thread(play_to_vtube,audio_file))
+        await asyncio.gather(emotion_task, speak_task)
 
 
     async def shutdown(self):

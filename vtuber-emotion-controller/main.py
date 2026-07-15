@@ -1,7 +1,4 @@
-
-from core import EmotionAnalyzer
-from core import VTSController
-from core import TTSController
+from core import *
 from utils import play_to_vtube
 
 from loguru import logger

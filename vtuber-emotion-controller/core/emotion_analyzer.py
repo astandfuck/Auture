@@ -1,10 +1,12 @@
 import re
+from typing import cast
+
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+from openai.types.chat import ChatCompletionMessageParam
 
-
-load_dotenv()
+load_dotenv()  #加载环境变量.env文件
 
 class EmotionAnalyzer:
     """
@@ -62,10 +64,13 @@ class EmotionAnalyzer:
             # 调用DeepSeek API
             response = self.client.chat.completions.create(
                 model="deepseek-chat",  # 或 deepseek-reasoner
-                messages=[
-                    {"role": "system", "content": self.system_prompt},
-                    {"role": "user", "content": user_input}
-                ],
+                messages=cast(
+                                list[ChatCompletionMessageParam],
+                                [
+                                    {"role": "system", "content": self.system_prompt},
+                                    {"role": "user", "content": user_input}
+                                ]
+                            ),
                 temperature=0.8,
                 max_tokens=500
             )

@@ -7,3 +7,4 @@ edge_tts
 sounddevice
 soundfile
 pygame
+loguru

@@ -11,22 +11,22 @@ class VTuberSystem:
     """
 
     def __init__(self):
-        self.emotion_analyzer = EmotionAnalyzer()
+        self.brain = Brain()
         self.vts_controller = VTSController()
-        self.is_running = False
+        self.tts_controller = TTSController()
 
+        self.is_running = False
         # 表情持续时间（秒）
         self.emotion_duration = 4.0
 
-        self.tts_controller = TTSController()
     async def start(self):
         """启动系统"""
         print("=" * 50)
-        print("  表情控制系统 v2.0")
+        print("启动VtuberSystem.start()")
         print("=" * 50)
 
         # 连接VTube Studio
-        print("\n正在连接VTube Studio...")
+        print("\n正在连接VTube Studio")
         if not await self.vts_controller.connect():
             print("\n[错误] 无法连接到VTube Studio")
             print("请检查:")
@@ -35,7 +35,7 @@ class VTuberSystem:
             print("  3. 端口设置 (默认 8001)")
             return False
 
-        print("\n✓ 系统就绪！输入问题开始互动")
+        print("\n✓ 连接 VTube Studio 成功")
         print("  (输入 'quit' 退出程序)\n")
 
         self.is_running = True
@@ -82,7 +82,8 @@ class VTuberSystem:
         # 第一步：获取DeepSeek回复和情绪标签
         # get_response_and_emotion 是同步方法，用 to_thread 包装
         result = await asyncio.to_thread(
-            self.emotion_analyzer.get_response_and_emotion, user_input
+            self.brain.get_response_and_emotion,
+            user_input
         )
         emotion = result["emotion"]
         response = result["response"]
@@ -102,7 +103,6 @@ class VTuberSystem:
         #speak and emotion at the same time
         speak_task = asyncio.create_task(asyncio.to_thread(play_to_vtube,audio_file))
         await asyncio.gather(emotion_task, speak_task)
-
 
     async def shutdown(self):
         """关闭系统"""

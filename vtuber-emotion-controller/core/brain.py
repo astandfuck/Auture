@@ -8,7 +8,7 @@ from openai.types.chat import ChatCompletionMessageParam
 
 load_dotenv()  #加载环境变量.env文件
 
-class EmotionAnalyzer:
+class Brain:
     """
     情绪分析器
     发送文本给DeepSeek，让它同时给出回答和情绪标签
@@ -51,7 +51,7 @@ class EmotionAnalyzer:
 
     def get_response_and_emotion(self, user_input: str) -> dict:
         """
-        获取DeepSeek的回复和情绪标签
+        获取DeepSeek的“回复”和“情绪标签”
 
         返回:
             {
@@ -127,7 +127,7 @@ class EmotionAnalyzer:
 
 # 测试代码
 if __name__ == "__main__":
-    analyzer = EmotionAnalyzer()
+    analyzer = Brain()
 
     # 测试不同情绪
     test_messages = [

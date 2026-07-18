@@ -1,5 +1,5 @@
-from .emotion_analyzer import EmotionAnalyzer
+from .brain import Brain
 from .vts_controller import VTSController
 from .tts_controller import TTSController
 
-__all__ = ['EmotionAnalyzer', 'VTSController', 'TTSController']
+__all__ = ['Brain', 'VTSController', 'TTSController']

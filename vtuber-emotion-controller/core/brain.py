@@ -10,8 +10,14 @@ load_dotenv()  #加载环境变量.env文件
 
 class Brain:
     """
-    情绪分析器
-    发送文本给DeepSeek，让它同时给出回答和情绪标签
+    实例化后（不需传参），会自动获取deepseek的API以及.env中的DEEPSEEK_API_KEY，
+    然后定义可用的情绪标签以及系统提示词——要求DeepSeek在回答开头标注情绪。
+
+    1. get_response_and_emotion() 传入一段用户说的string，会传入deepseek，
+    再根据要求返回deepseek输出的回答、表情标签、以及原始输出
+
+    2. _parse_emotion_tag() 可以从deepseek的原始输出文本中提取情绪标签，
+    返回(emotion, clean_response) 元组
     """
 
     def __init__(self):
@@ -76,6 +82,7 @@ class Brain:
             )
 
             raw_text = response.choices[0].message.content
+            #TODO -> using streaming conversation
 
             # 解析情绪标签
             emotion, clean_response = self._parse_emotion_tag(raw_text)

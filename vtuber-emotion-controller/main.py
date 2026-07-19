@@ -103,13 +103,14 @@ class VTuberSystem:
         #speak and emotion at the same time
         speak_task = asyncio.create_task(asyncio.to_thread(play_to_vtube,audio_file))
         await asyncio.gather(emotion_task, speak_task)
+        #TODO -> "packing" and "call stream conversation"
 
     async def shutdown(self):
         """关闭系统"""
-        print("\n正在关闭连接...")
+        print("\nclosing VTube Studio and interaction loop")
         await self.vts_controller.close()
         self.is_running = False
-        print("再见！")
+        print("successfully closing")
 
 
 # ========== 程序入口 ==========
